@@ -166,7 +166,7 @@ function SiteNav() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-3 sm:px-6 sm:pt-4">
       <div
         className={`bg-background/80 mx-auto flex w-full items-center justify-between gap-2 rounded-full border backdrop-blur-xl transition-[height,box-shadow,border-color] duration-300 md:w-fit md:px-1 ${
           scrolled
@@ -175,7 +175,7 @@ function SiteNav() {
         }`}
       >
         <nav
-          className="mx-auto flex min-w-0 flex-1 items-center justify-around gap-0 px-0.5 md:flex-none md:justify-start md:gap-1 md:pl-1.5"
+          className="mx-auto flex min-w-0 flex-1 items-center justify-around gap-0 px-1.5 sm:px-2 md:flex-none md:justify-start md:gap-1 md:pl-1.5"
           aria-label="Sections"
         >
           {NAV.map((item) => {
@@ -189,7 +189,7 @@ function SiteNav() {
                   setActive(item.href);
                 }}
                 aria-current={isActive ? "true" : undefined}
-                className={`relative whitespace-nowrap rounded-full px-1 py-1 text-[0.76rem] font-semibold tracking-[0em] uppercase transition-colors max-[359px]:px-0.5 max-[359px]:text-[0.62rem] sm:px-1.5 sm:py-1.5 sm:text-[0.8rem] sm:tracking-[0.02em] md:px-3 md:text-[0.7rem] md:tracking-[0.18em] ${
+                className={`relative whitespace-nowrap rounded-full px-1 py-1 text-[0.6rem] font-semibold tracking-[0em] uppercase transition-colors min-[360px]:px-1.5 min-[360px]:text-[0.7rem] sm:px-2 sm:py-1.5 sm:text-[0.8rem] sm:tracking-[0.02em] md:px-3 md:text-[0.7rem] md:tracking-[0.18em] ${
                   isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
