@@ -1,0 +1,304 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system  "White Manga" (ink on paper)
+ *
+ * Everything is drawn like a manga page: white paper, hard black ink
+ * lines, screentone halftones, speed lines and a single crimson accent.
+ * Colors live here as oklch tokens; components never hardcode colors.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-display: "Bebas Neue", "Arial Narrow", sans-serif;
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.25rem;
+  --background: oklch(0.992 0.004 95);
+  --foreground: oklch(0.16 0.015 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.015 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.015 260);
+  --primary: oklch(0.55 0.23 26);
+  --primary-foreground: oklch(0.992 0.004 95);
+  --secondary: oklch(0.955 0.005 95);
+  --secondary-foreground: oklch(0.16 0.015 260);
+  --muted: oklch(0.955 0.005 95);
+  --muted-foreground: oklch(0.45 0.02 260);
+  --accent: oklch(0.94 0.035 26);
+  --accent-foreground: oklch(0.16 0.015 260);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.992 0.004 95);
+  --border: oklch(0.88 0.006 95);
+  --input: oklch(0.88 0.006 95);
+  --ring: oklch(0.55 0.23 26);
+}
+
+.dark {
+  --background: oklch(0.145 0.014 260);
+  --foreground: oklch(0.985 0.004 95);
+  --card: oklch(0.205 0.015 260);
+  --card-foreground: oklch(0.985 0.004 95);
+  --popover: oklch(0.205 0.015 260);
+  --popover-foreground: oklch(0.985 0.004 95);
+  --primary: oklch(0.63 0.22 26);
+  --primary-foreground: oklch(0.985 0.004 95);
+  --secondary: oklch(0.27 0.02 260);
+  --secondary-foreground: oklch(0.985 0.004 95);
+  --muted: oklch(0.27 0.02 260);
+  --muted-foreground: oklch(0.7 0.015 260);
+  --accent: oklch(0.3 0.05 26);
+  --accent-foreground: oklch(0.985 0.004 95);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0.004 95);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.63 0.22 26);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Keep anchored sections clear of the sticky header. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}
+
+/* ---- Manga vocabulary -------------------------------------------------- */
+
+/* Hard-edged panel: thick ink border with a printed offset shadow. */
+@utility panel {
+  background-color: var(--color-card);
+  border: 3px solid var(--color-foreground);
+  box-shadow: 6px 6px 0 0 var(--color-foreground);
+}
+
+@utility panel-red {
+  background-color: var(--color-card);
+  border: 3px solid var(--color-foreground);
+  box-shadow: 6px 6px 0 0 var(--color-primary);
+}
+
+/* Screentone halftone dots (ink). */
+@utility halftone {
+  background-image: radial-gradient(
+    circle at 1.5px 1.5px,
+    color-mix(in oklab, var(--color-foreground) 24%, transparent) 1.5px,
+    transparent 2px
+  );
+  background-size: 12px 12px;
+}
+
+/* Screentone halftone dots (crimson accent). */
+@utility halftone-red {
+  background-image: radial-gradient(
+    circle at 1.5px 1.5px,
+    color-mix(in oklab, var(--color-primary) 45%, transparent) 1.5px,
+    transparent 2px
+  );
+  background-size: 12px 12px;
+}
+
+/* Diagonal action lines, faint enough to sit behind text. */
+@utility speed-lines {
+  background-image: repeating-linear-gradient(
+    115deg,
+    transparent 0px,
+    transparent 16px,
+    color-mix(in oklab, var(--color-foreground) 8%, transparent) 16px,
+    color-mix(in oklab, var(--color-foreground) 8%, transparent) 18px
+  );
+}
+
+@utility manga-loader {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.35rem;
+  height: 2rem;
+
+  & span {
+    display: block;
+    width: 0.45rem;
+    height: 1.25rem;
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-foreground);
+    animation: manga-loader-bounce 0.9s ease-in-out infinite;
+  }
+
+  & span:nth-child(2) {
+    height: 1.75rem;
+    animation-delay: 0.12s;
+  }
+
+  & span:nth-child(3) {
+    animation-delay: 0.24s;
+  }
+}
+
+@keyframes manga-loader-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-0.65rem) rotate(-8deg);
+  }
+}
+
+/* Vertical Japanese text strip. */
+@utility vertical-jp {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.3em;
+}
+
+/* Marker highlight sweeping under a word. */
+@utility marker-underline {
+  background-image: linear-gradient(var(--color-primary), var(--color-primary));
+  background-repeat: no-repeat;
+  background-size: 100% 0.3em;
+  background-position: 0 88%;
+}
+
+/* Speech bubble with a folded tail. */
+@utility bubble {
+  position: relative;
+  background-color: var(--color-card);
+  border: 3px solid var(--color-foreground);
+  border-radius: 1.5rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 40px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-card);
+    border-right: 3px solid var(--color-foreground);
+    border-bottom: 3px solid var(--color-foreground);
+    transform: rotate(45deg);
+  }
+}
+
+/* Chunky manga button: ink border, offset shadow, presses in on click. */
+@utility btn-manga {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 3px solid var(--color-foreground);
+  padding: 0.7rem 1.4rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0 0 var(--color-foreground);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0 0 var(--color-foreground);
+  }
+
+  &:active {
+    transform: translate(5px, 5px);
+    box-shadow: 0 0 0 0 var(--color-foreground);
+  }
+}
+
+/* Compact ink button for the sticky header. */
+@utility btn-manga-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border: 2px solid var(--color-foreground);
+  padding: 0.5rem 0.9rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 0 var(--color-foreground);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 0 var(--color-foreground);
+  }
+
+  &:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 0 var(--color-foreground);
+  }
+}
+
+/* Small bordered tag for tech stacks. */
+@utility tag-ink {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid var(--color-foreground);
+  padding: 0.15rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: var(--color-card);
+}
